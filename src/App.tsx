@@ -1,5 +1,11 @@
+import Header from "./components/header/header";
+
 const App = () => {
-  return <></>;
+  return (
+    <div className="kanban">
+      <Header />
+    </div>
+  );
 };
 
 export default App;
