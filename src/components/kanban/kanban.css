@@ -1,0 +1,129 @@
+/* Main board container */
+.kanban-board {
+  padding: 16px;
+  background: #f4f5f8;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.kanban-board__container {
+  gap: 24px;
+  display: flex;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scroll-snap-type: x mandatory;
+}
+
+/* Column styling */
+.kanban-board__column {
+  flex: 0 0 320px;
+  min-width: 280px;
+  scroll-snap-align: start;
+}
+
+/* Column header */
+.kanban-board__column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.kanban-board__group-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.kanban-board__logo {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.kanban-board__group-name {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.kanban-board__ticket-count {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.kanban-board__actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.kanban-board__add-button,
+.kanban-board__options-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+}
+
+.kanban-board__add-button:hover,
+.kanban-board__options-button:hover {
+  background-color: #e0e0e0;
+}
+
+.kanban-board__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .kanban-board {
+    padding: 8px;
+  }
+
+  .kanban-board__column {
+    min-width: 240px;
+  }
+
+  .kanban-board__group-name,
+  .kanban-board__ticket-count {
+    font-size: 0.85rem;
+  }
+
+  .kanban-board__add-button,
+  .kanban-board__options-button {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kanban-board__container {
+    gap: 16px;
+  }
+
+  .kanban-board__column {
+    min-width: 200px;
+    padding: 8px;
+  }
+
+  .kanban-board__group-name,
+  .kanban-board__ticket-count {
+    font-size: 0.75rem;
+  }
+
+  .kanban-board__add-button,
+  .kanban-board__options-button {
+    width: 20px;
+    height: 20px;
+  }
+}

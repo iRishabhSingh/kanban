@@ -1,0 +1,146 @@
+/* Main card container */
+.card {
+  background-color: white;
+  border: 1px solid #e6e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease;
+}
+
+/* Header */
+.card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.card__id {
+  color: #6b6f76;
+  font-size: 0.9em;
+}
+
+.card__user-avatar {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.card__avatar-image {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.card__status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ddd;
+}
+
+.card__status-dot--available {
+  background-color: #4caf50;
+}
+
+/* Title */
+.card__title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  margin: 8px 0;
+}
+
+/* Tags section */
+.card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Priority and feature tags */
+.card__priority-tag,
+.card__feature-tag {
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  background-color: #f4f5f8;
+  color: #6b6f76;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .card {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .card__id {
+    font-size: 0.8rem;
+  }
+
+  .card__avatar-image {
+    width: 20px;
+    height: 20px;
+  }
+
+  .card__status-dot {
+    width: 7px;
+    height: 7px;
+  }
+
+  .card__title {
+    font-size: 0.9rem;
+  }
+
+  .card__priority-tag,
+  .card__feature-tag {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+
+  .card__header {
+    align-items: flex-start;
+    margin-bottom: 4px;
+  }
+
+  .card__id {
+    font-size: 0.75rem;
+  }
+
+  .card__avatar-image {
+    width: 18px;
+    height: 18px;
+  }
+
+  .card__status-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .card__title {
+    font-size: 0.85rem;
+  }
+
+  .card__priority-tag,
+  .card__feature-tag {
+    font-size: 0.65rem;
+    padding: 2px 5px;
+  }
+
+  .card__tags {
+    gap: 6px;
+  }
+}

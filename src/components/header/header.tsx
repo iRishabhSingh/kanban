@@ -1,7 +1,19 @@
 import { useState } from "react";
-import "./header.css"; // Import your CSS file
+import "@/components/header/header.css";
 
-const Header = () => {
+interface Props {
+  sortBy: string;
+  groupBy: string;
+  setSortBy: (value: string) => void;
+  setGroupBy: (value: string) => void;
+}
+
+const Header: React.FC<Props> = ({
+  sortBy,
+  groupBy,
+  setSortBy,
+  setGroupBy,
+}) => {
   const [showOptions, setShowOptions] = useState(false);
 
   // Toggle options visibility
@@ -11,7 +23,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <button className="display-button" onClick={toggleOptions}>
+      <button className="header__display-button" onClick={toggleOptions}>
         {/* Filter Icon SVG */}
         <svg
           width="16"
@@ -27,9 +39,13 @@ const Header = () => {
             fill="#5C5C5C"
           />
         </svg>
-        <span>Display</span>
+
+        {/* Display button text */}
+        <span className="header__display-button-text">Display</span>
+
+        {/* Arrow icon SVG */}
         <svg
-          className={`arrow ${showOptions ? "up" : ""}`}
+          className={`header__arrow ${showOptions ? "header__arrow--up" : ""}`}
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -48,18 +64,32 @@ const Header = () => {
 
       {/* Conditionally render the options */}
       {showOptions && (
-        <div className="options-popup">
-          <div className="option">
-            <label htmlFor="grouping">Grouping</label>
-            <select id="grouping" className="select">
+        <div className="header__options-popup">
+          <div className="header__option">
+            <label className="header__option-label" htmlFor="grouping">
+              Grouping
+            </label>
+            <select
+              id="grouping"
+              value={groupBy}
+              className="header__select"
+              onChange={(e) => setGroupBy(e.target.value)}
+            >
               <option value="status">Status</option>
               <option value="user">User</option>
               <option value="priority">Priority</option>
             </select>
           </div>
-          <div className="option">
-            <label htmlFor="ordering">Ordering</label>
-            <select id="ordering" className="select">
+          <div className="header__option">
+            <label className="header__option-label" htmlFor="ordering">
+              Ordering
+            </label>
+            <select
+              id="ordering"
+              value={sortBy}
+              className="header__select"
+              onChange={(e) => setSortBy(e.target.value)}
+            >
               <option value="priority">Priority</option>
               <option value="title">Title</option>
             </select>
