@@ -1,5 +1,6 @@
-import { Ticket, User } from "@/types/kanbanTypes";
 import "@/components/card/card.css";
+import { Ticket, User } from "@/types/kanbanTypes";
+import { getIconForGroup, getPriorityLabel } from "@/utils/kanbanUtils";
 
 interface CardProps {
   readonly ticket: Ticket;
@@ -8,28 +9,19 @@ interface CardProps {
 }
 
 export default function Card({ ticket, user, groupBy }: CardProps) {
-  const getPriorityLabel = (priority: number) => {
-    switch (priority) {
-      case 4:
-        return "Urgent";
-      case 3:
-        return "High";
-      case 2:
-        return "Medium";
-      case 1:
-        return "Low";
-      default:
-        return "No Priority";
-    }
-  };
+  const showAvatar = groupBy !== "user";
+  const showStatusIcon = groupBy !== "status";
+  const showPriorityIcon = groupBy !== "priority";
 
   return (
     <div className="card">
       <div className="card__header">
         <span className="card__id">{ticket.id}</span>
-        {groupBy !== "user" && (
+        {showAvatar && (
           <div className="card__user-avatar">
-            <img src="" alt="" className="card__avatar-image" />
+            <span className="card__avatar-image">
+              {user.name.charAt(0).toUpperCase()}
+            </span>
             <span
               className={`card__status-dot ${
                 user.available ? "card__status-dot--available" : ""
@@ -38,15 +30,23 @@ export default function Card({ ticket, user, groupBy }: CardProps) {
           </div>
         )}
       </div>
-      <h3 className="card__title">{ticket.title}</h3>
+      <h3 className="card__title">
+        {showStatusIcon && (
+          <span className="card__status-icon">
+            {getIconForGroup(ticket.status)}
+          </span>
+        )}
+        {ticket.title}
+      </h3>
       <div className="card__tags">
-        {groupBy !== "priority" && (
+        {showPriorityIcon && (
           <span className="card__priority-tag">
-            {getPriorityLabel(ticket.priority)}
+            {getIconForGroup(getPriorityLabel(ticket.priority))}
           </span>
         )}
         {ticket.tag.map((tag) => (
           <span key={tag} className="card__feature-tag">
+            <span className="card__feature-tag-dot"></span>
             {tag}
           </span>
         ))}

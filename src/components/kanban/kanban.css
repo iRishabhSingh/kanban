@@ -40,9 +40,9 @@
 }
 
 .kanban-board__logo {
-  width: 20px;
-  height: 20px;
   border-radius: 50%;
+  display: flex;
+  align-items: end;
 }
 
 .kanban-board__group-name {
@@ -60,8 +60,7 @@
   gap: 0.25rem;
 }
 
-.kanban-board__add-button,
-.kanban-board__options-button {
+.kanban-board__button {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -73,8 +72,7 @@
   border: none;
 }
 
-.kanban-board__add-button:hover,
-.kanban-board__options-button:hover {
+.kanban-board__button:hover {
   background-color: #e0e0e0;
 }
 
@@ -84,10 +82,22 @@
   gap: 12px;
 }
 
+.kanban-board__logo-name {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  font-size: 0.75rem;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: chocolate;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .kanban-board {
-    padding: 8px;
+    padding: 12px;
   }
 
   .kanban-board__column {
@@ -99,8 +109,7 @@
     font-size: 0.85rem;
   }
 
-  .kanban-board__add-button,
-  .kanban-board__options-button {
+  .kanban-board__button {
     width: 24px;
     height: 24px;
   }
@@ -108,7 +117,7 @@
 
 @media (max-width: 480px) {
   .kanban-board__container {
-    gap: 16px;
+    gap: 12px;
   }
 
   .kanban-board__column {
@@ -121,8 +130,7 @@
     font-size: 0.75rem;
   }
 
-  .kanban-board__add-button,
-  .kanban-board__options-button {
+  .kanban-board__button {
     width: 20px;
     height: 20px;
   }

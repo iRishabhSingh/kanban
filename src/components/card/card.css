@@ -31,17 +31,23 @@
 .card__avatar-image {
   width: 20px;
   height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: white;
+  background-color: chocolate;
   border-radius: 50%;
 }
 
 .card__status-dot {
-  position: absolute;
-  bottom: 0;
-  right: 0;
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background-color: #ddd;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 .card__status-dot--available {
@@ -54,6 +60,16 @@
   font-weight: 500;
   color: #333;
   margin: 8px 0;
+  display: flex;
+  gap: 6px;
+}
+
+.card__status-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Tags section */
@@ -66,11 +82,21 @@
 /* Priority and feature tags */
 .card__priority-tag,
 .card__feature-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   padding: 4px 8px;
   font-size: 0.75rem;
+  border: 1px solid #f4f5f8;
   border-radius: 4px;
-  background-color: #f4f5f8;
   color: #6b6f76;
+}
+
+.card__feature-tag-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ddd;
 }
 
 /* Responsive styles */

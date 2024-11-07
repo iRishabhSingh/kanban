@@ -1,63 +1,100 @@
+import AddIcon from "@/assets/AddIcon";
 import "@/components/kanban/kanban.css";
 import Card from "@/components/card/card";
+import OptionsIcon from "@/assets/OptionsIcon";
 import { Ticket, User } from "@/types/kanbanTypes";
+import { getIconForGroup, GroupName } from "@/utils/kanbanUtils";
+
+const PRIORITY_GROUPS: GroupName[] = [
+  "No Priority",
+  "Urgent",
+  "High",
+  "Medium",
+  "Low",
+];
+const STATUS_GROUPS: GroupName[] = [
+  "Backlog",
+  "Todo",
+  "In progress",
+  "Done",
+  "Cancelled",
+];
+
+interface KanbanBoardProps {
+  users: User[];
+  groupBy: string;
+  groupTickets: Record<string, Ticket[]>;
+}
 
 export default function KanbanBoard({
   users,
   groupBy,
   groupTickets,
-}: {
-  users: User[];
-  groupBy: string;
-  groupTickets: Record<string, Ticket[]>;
-}) {
+}: KanbanBoardProps) {
+  const groups: GroupName[] =
+    groupBy === "priority"
+      ? PRIORITY_GROUPS
+      : groupBy === "status"
+      ? STATUS_GROUPS
+      : [];
+
   return (
     <section className="kanban-board">
       <div className="kanban-board__container">
-        {Object.entries(groupTickets).map(([group, tickets]) => (
-          <KanbanColumn
-            key={group}
-            group={group}
-            users={users}
-            groupBy={groupBy}
-            tickets={tickets}
-          />
-        ))}
+        {groups.length > 0
+          ? groups.map((group) => (
+              <KanbanColumn
+                key={group}
+                group={group}
+                users={users}
+                groupBy={groupBy}
+                tickets={groupTickets[group] || []}
+              />
+            ))
+          : Object.entries(groupTickets).map(([group, tickets]) => (
+              <KanbanColumn
+                key={group}
+                group={group}
+                users={users}
+                groupBy={groupBy}
+                tickets={tickets}
+              />
+            ))}
       </div>
     </section>
   );
 }
 
-function KanbanColumn({
-  users,
-  group,
-  groupBy,
-  tickets,
-}: {
+interface KanbanColumnProps {
   users: User[];
-  group: string;
+  group: GroupName | string;
   groupBy: string;
   tickets: Ticket[];
-}) {
+}
+
+function KanbanColumn({ users, group, groupBy, tickets }: KanbanColumnProps) {
+  const Icon = getIconForGroup(group);
+
   return (
     <div className="kanban-board__column">
       <div className="kanban-board__column-header">
         <div className="kanban-board__group-info">
-          <img src="" alt="" className="kanban-board__logo" />
+          <span className="kanban-board__logo">{Icon}</span>
           <span className="kanban-board__group-name">{group}</span>
           <span className="kanban-board__ticket-count">{tickets.length}</span>
         </div>
         <KanbanActions />
       </div>
       <div className="kanban-board__tickets">
-        {tickets.map((ticket) => (
-          <Card
-            key={ticket.id}
-            ticket={ticket}
-            groupBy={groupBy}
-            user={users.find((u) => u.id === ticket.userId)!}
-          />
-        ))}
+        {tickets.length > 0 &&
+          tickets.map((ticket) => (
+            <Card
+              key={ticket.id}
+              ticket={ticket}
+              groupBy={groupBy}
+              user={users.find((u) => u.id === ticket.userId)!}
+            />
+          ))}
       </div>
     </div>
   );
@@ -66,36 +103,25 @@ function KanbanColumn({
 function KanbanActions() {
   return (
     <div className="kanban-board__actions">
-      <button aria-label="Add" className="kanban-board__add-button">
-        {/* SVG icon */}
-        <svg
-          width="16"
-          height="16"
-          fill="none"
-          viewBox="0 0 16 16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M8.75 4C8.75 3.58579 8.41421 3.25 8 3.25C7.58579 3.25 7.25 3.58579 7.25 4V7.25H4C3.58579 7.25 3.25 7.58579 3.25 8C3.25 8.41421 3.58579 8.75 4 8.75H7.25V12C7.25 12.4142 7.58579 12.75 8 12.75C8.41421 12.75 8.75 12.4142 8.75 12V8.75H12C12.4142 8.75 12.75 8.41421 12.75 8C12.75 7.58579 12.4142 7.25 12 7.25H8.75V4Z"
-            fill="#5C5C5E"
-          />
-        </svg>
-      </button>
-      <button aria-label="Options" className="kanban-board__options-button">
-        {/* SVG icon */}
-        <svg
-          width="16"
-          height="16"
-          fill="none"
-          viewBox="0 0 16 16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M3 6.5C3.39782 6.5 3.77936 6.65804 4.06066 6.93934C4.34196 7.22064 4.5 7.60218 4.5 8C4.5 8.39782 4.34196 8.77936 4.06066 9.06066C3.77936 9.34196 3.39782 9.5 3 9.5C2.60218 9.5 2.22064 9.34196 1.93934 9.06066C1.65804 8.77936 1.5 8.39782 1.5 8C1.5 7.60218 1.65804 7.22064 1.93934 6.93934C2.22064 6.65804 2.60218 6.5 3 6.5ZM8 6.5C8.39782 6.5 8.77936 6.65804 9.06066 6.93934C9.34196 7.22064 9.5 7.60218 9.5 8C9.5 8.39782 9.34196 8.77936 9.06066 9.06066C8.77936 9.34196 8.39782 9.5 8 9.5C7.60218 9.5 7.22064 9.34196 6.93934 9.06066C6.65804 8.77936 6.5 8.39782 6.5 8C6.5 7.60218 6.65804 7.22064 6.93934 6.93934C7.22064 6.65804 7.60218 6.5 8 6.5ZM13 6.5C13.3978 6.5 13.7794 6.65804 14.0607 6.93934C14.342 7.22064 14.5 7.60218 14.5 8C14.5 8.39782 14.342 8.77936 14.0607 9.06066C13.7794 9.34196 13.3978 9.5 13 9.5C12.6022 9.5 12.2206 9.34196 11.9393 9.06066C11.658 8.77936 11.5 8.39782 11.5 8C11.5 7.60218 11.658 7.22064 11.9393 6.93934C12.2206 6.65804 12.6022 6.5 13 6.5Z"
-            fill="#5C5C5E"
-          />
-        </svg>
-      </button>
+      <ActionButton label="Add">
+        <AddIcon />
+      </ActionButton>
+      <ActionButton label="Options">
+        <OptionsIcon />
+      </ActionButton>
     </div>
+  );
+}
+
+interface ActionButtonProps {
+  label: string;
+  children: JSX.Element;
+}
+
+function ActionButton({ label, children }: ActionButtonProps) {
+  return (
+    <button aria-label={label} className="kanban-board__button">
+      {children}
+    </button>
   );
 }
