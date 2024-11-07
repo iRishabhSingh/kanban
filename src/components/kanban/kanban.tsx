@@ -21,9 +21,9 @@ const STATUS_GROUPS: GroupName[] = [
 ];
 
 interface KanbanBoardProps {
-  users: User[];
-  groupBy: string;
-  groupTickets: Record<string, Ticket[]>;
+  readonly users: User[];
+  readonly groupBy: string;
+  readonly groupTickets: Record<string, Ticket[]>;
 }
 
 export default function KanbanBoard({
@@ -31,12 +31,12 @@ export default function KanbanBoard({
   groupBy,
   groupTickets,
 }: KanbanBoardProps) {
-  const groups: GroupName[] =
-    groupBy === "priority"
-      ? PRIORITY_GROUPS
-      : groupBy === "status"
-      ? STATUS_GROUPS
-      : [];
+  let groups: GroupName[] = [];
+  if (groupBy === "priority") {
+    groups = PRIORITY_GROUPS;
+  } else if (groupBy === "status") {
+    groups = STATUS_GROUPS;
+  }
 
   return (
     <section className="kanban-board">
@@ -54,7 +54,7 @@ export default function KanbanBoard({
           : Object.entries(groupTickets).map(([group, tickets]) => (
               <KanbanColumn
                 key={group}
-                group={group}
+                group={group as GroupName}
                 users={users}
                 groupBy={groupBy}
                 tickets={tickets}
@@ -67,12 +67,17 @@ export default function KanbanBoard({
 
 interface KanbanColumnProps {
   users: User[];
-  group: GroupName | string;
+  group: GroupName;
   groupBy: string;
   tickets: Ticket[];
 }
 
-function KanbanColumn({ users, group, groupBy, tickets }: KanbanColumnProps) {
+function KanbanColumn({
+  users,
+  group,
+  groupBy,
+  tickets,
+}: Readonly<KanbanColumnProps>) {
   const Icon = getIconForGroup(group);
 
   return (
@@ -114,8 +119,8 @@ function KanbanActions() {
 }
 
 interface ActionButtonProps {
-  label: string;
-  children: JSX.Element;
+  readonly label: string;
+  readonly children: JSX.Element;
 }
 
 function ActionButton({ label, children }: ActionButtonProps) {

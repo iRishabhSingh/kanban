@@ -5,7 +5,7 @@ import { getIconForGroup, getPriorityLabel } from "@/utils/kanbanUtils";
 interface CardProps {
   readonly ticket: Ticket;
   readonly user: User;
-  groupBy: string;
+  readonly groupBy: string;
 }
 
 export default function Card({ ticket, user, groupBy }: CardProps) {
